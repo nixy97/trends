@@ -7,30 +7,67 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+//
+// /**
+//  * The following block of code may be used to automatically register your
+//  * Vue components. It will recursively scan this directory for the Vue
+//  * components and automatically register them with their "basename".
+//  *
+//  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
+//  */
+//
+// // const files = require.context('./', true, /\.vue$/i);
+// // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
+//
+// Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+// Vue.component('navBar', require('./components/navBar.vue'), {
+//         name:'navBar'
+//     });
+// Vue.component('Home', require('./components/Home.vue').default);
+//
+// /**
+//  * Next, we will create a fresh Vue application instance and attach it to
+//  * the page. Then, you may begin adding components to this application
+//  * or customize the JavaScript scaffolding to fit your unique needs.
+//  */
+//
+// const app = new Vue({
+//     el: '#app',
+// });
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+window.VueRouter = require('vue-router').default;
 
-// const files = require.context('./', true, /\.vue$/i);
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
+window.VueAxios = require('vue-axios').default;
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
-Vue.component('navBar', require('./components/navBar.vue'), {
-        name:'navBar'
-    });
-Vue.component('Home', require('./components/Home.vue').default);
+window.Axios = require('axios').default;
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+let AppLayout = require('./components/App.vue');
 
-const app = new Vue({
-    el: '#app',
-});
+const Createpost = Vue.component('CreatePost', require('./components/CreatePost.vue'));
+const Editpost = Vue.component('EditPost', require('./components/EditPost.vue'));
+
+//register Modules
+Vue.use(VueRouter, VueAxios, axios);
+
+const routes = [
+    {
+        name: 'CreatePost',
+        path: '/create-post',
+        component: Createpost
+    },
+    {
+        name: 'EditPost',
+        path: '/edit/:id',
+        component: Editpost
+    },
+]
+
+
+const router = new VueRouter({ mode: 'history', routes: routes});
+
+new Vue(
+    Vue.util.extend(
+        { router },
+        AppLayout
+    )
+).$mount('#app');
