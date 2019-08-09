@@ -15,7 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/index', 'DashController@index');
+//Route::get('/home', function () {
+//    return view('home');
+//});
+
+Route::get('/index', 'DashController@index')-> name("index");
 
 Route::resource('post', 'PostsController');
 

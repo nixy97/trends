@@ -55,7 +55,12 @@ class PostsController extends Controller
         $post->body = $request->input('body');
         $post->user_id = auth()->user()->id;
         $post->save();
-        return redirect('/posts')->with('success', 'Post Created');
+//        return redirect('/posts')->with('success', 'Post Created');
+
+        return response()->json([
+            'title'    => $post,
+            'message' => 'Success'
+        ], 200);
     }
     /**
      * Display the specified resource.
@@ -99,7 +104,10 @@ class PostsController extends Controller
         $post->title = $request->input('title');
         $post->body = $request->input('body');
         $post->save();
-        return redirect('/posts')->with('success', 'Post Updated');
+//        return redirect('/posts')->with('success', 'Post Updated');
+        return response()->json([
+            'message' => 'Post has been Updated'
+        ], 200);
     }
     /*
      * Remove the specified resource from storage.
@@ -114,6 +122,9 @@ class PostsController extends Controller
             return redirect('/posts')->with('error','Unauthorized Page');
         }
         $post->delete();
-        return redirect('/posts')->with('success', 'Post Removed');
+//        return redirect('/posts')->with('success', 'Post Removed');
+        return response()->json([
+            'message' => 'Post Deleted'
+        ], 200);
     }
 }
